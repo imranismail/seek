@@ -22,8 +22,8 @@ defmodule Checkout.PriceRuleTest do
     checkout = PriceRule.apply_to(state[:price_rule], checkout)
     checkout = Checkout.calculate_total(checkout)
 
-    assert price_rule not in checkout.applied_price_rules
-    assert checkout.total == product.price
+    assert state[:price_rule] not in checkout.applied_price_rules
+    assert checkout.total == state[:product].price
   end
 
   test "PriceRule.apply_to/2 should apply when requirements are satisfied", state do
