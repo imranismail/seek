@@ -28,7 +28,7 @@ defmodule Checkout.PriceRuleTest do
     assert checkout.total == state[:product].price
   end
 
-  test "PriceRule.apply_to/2 doesn't apply when qty prerequisites are satisfied", state do
+  test "PriceRule.apply_to/2 should apply when qty prerequisites are satisfied", state do
     checkout = Checkout.new(
       customer: state[:customer],
       items: [state[:product], state[:product]]
@@ -40,7 +40,7 @@ defmodule Checkout.PriceRuleTest do
     assert checkout.total == state[:product].price * 2 + state[:price_rule].value
   end
 
-  test "PriceRule.apply_to/2 should apply when requirements are not satisfied", state do
+  test "PriceRule.apply_to/2 shouldn't apply when qty prerequisites are not satisfied", state do
     checkout = Checkout.new(customer: state[:customer], items: [state[:product]])
     checkout = PriceRule.apply_to(state[:price_rule], checkout)
     checkout = Checkout.calculate_total(checkout)
