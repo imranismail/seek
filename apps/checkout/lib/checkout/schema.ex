@@ -2,15 +2,7 @@ defmodule Checkout.Schema do
   defmacro __using__(_) do
     quote do
       use Ecto.Schema
-
-      alias Checkout.{
-        Repo,
-        Customer,
-        Product,
-        PriceRule,
-        CustomerPriceRule,
-        ProductPriceRule
-      }
+      use Checkout.Shared
 
       def new(attrs \\ []) do
         struct(__MODULE__, attrs)
