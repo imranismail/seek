@@ -11,8 +11,8 @@ defmodule Checkout.PriceRuleTest do
       value: -1000,
       entitled_customers: [customer],
       entitled_products: [product],
-      preq_qty_range: 1,
-      preq_qty_range_comparison: "gt",
+      preq_qty: 1,
+      preq_qty_operator: ">",
       application_method: "across"
     )
 
@@ -28,7 +28,7 @@ defmodule Checkout.PriceRuleTest do
     assert checkout.total == state[:product].price
   end
 
-  test "PriceRule.apply_to/2 should apply when preq_qty_range is satisfied", state do
+  test "PriceRule.apply_to/2 should apply when preq_qty is satisfied", state do
     checkout = Checkout.new(
       customer: state[:customer],
       items: [state[:product], state[:product]]
@@ -40,7 +40,7 @@ defmodule Checkout.PriceRuleTest do
     assert checkout.total == state[:product].price * 2 + state[:price_rule].value
   end
 
-  test "PriceRule.apply_to/2 shouldn't apply when preq_qty_range isn't satisfied", state do
+  test "PriceRule.apply_to/2 shouldn't apply when preq_qty isn't satisfied", state do
     checkout = Checkout.new(customer: state[:customer], items: [state[:product]])
     checkout = PriceRule.apply_to(state[:price_rule], checkout)
     checkout = Checkout.calculate_total(checkout)

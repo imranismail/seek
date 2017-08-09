@@ -5,8 +5,8 @@ defmodule Checkout.PriceRule do
     field :value, :integer
     field :usage_limit, :integer
     field :application_method, :string
-    field :preq_qty_range, :integer
-    field :preq_qty_range_comparison, :string
+    field :preq_qty, :integer
+    field :preq_qty_operator, :string
 
     many_to_many :entitled_customers, Customer, join_through: CustomerPriceRule
     many_to_many :entitled_products, Product, join_through: ProductPriceRule
@@ -25,7 +25,7 @@ defmodule Checkout.PriceRule do
   defp apply?(price_rule, checkout) do
     entitled_customer?(price_rule, checkout)
     and not exceed_usage_limit?(price_rule, checkout)
-    and satisfied_preq_qty_range?(price_rule, checkout)
+    and satisfied_preq_qty?(price_rule, checkout)
   end
 
   defp entitled_customer?(price_rule, checkout) do
@@ -56,16 +56,18 @@ defmodule Checkout.PriceRule do
     |> Kernel.>=(price_rule.usage_limit)
   end
 
-  defp satisfied_preq_qty_range?(price_rule, checkout) do
+  defp satisfied_preq_qty?(price_rule, checkout) do
     count =
       checkout.items
       |> Enum.filter(&entitled_products?(price_rule, &1))
       |> Enum.count()
 
-    case price_rule.preq_qty_range_comparison do
-      "gt" -> count > price_rule.preq_qty_range
-      "eq" -> count == price_rule.preq_qty_range
-      "lt" -> count < price_rule.preq_qty_range
+    case price_rule.preq_qty_operator do
+      ">"  -> count > price_rule.preq_qty
+      "==" -> count == price_rule.preq_qty
+      "<"  -> count < price_rule.preq_qty
+      "<=" -> count <= price_rule.preq_qty
+      ">=" -> count >= price_rule.preq_qty
       nil  -> true
     end
   end
