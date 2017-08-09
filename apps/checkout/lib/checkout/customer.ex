@@ -1,5 +1,5 @@
 defmodule Checkout.Customer do
-  use Checkout, :schema
+  use Checkout.Schema
 
   schema "customers" do
     field :slug, :string

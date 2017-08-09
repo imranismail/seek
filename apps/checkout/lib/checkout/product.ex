@@ -1,5 +1,5 @@
 defmodule Checkout.Product do
-  use Checkout, :schema
+  use Checkout.Schema
 
   schema "products" do
     field :sku, :string

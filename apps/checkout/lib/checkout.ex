@@ -7,21 +7,16 @@ defmodule Checkout do
   if it comes from the database, an external API or others.
   """
 
-  defmacro __using__(which) do
-    apply(__MODULE__, which, [])
-  end
+  use Checkout.Schema
 
-  def schema do
-    quote do
-      use Ecto.Schema
+  embedded_schema do
+    field :total, :integer, default: 0
 
-      def new(attrs \\ []) do
-        struct(__MODULE__, attrs)
-      end
-    end
-  end
+    embeds_one :customer, Checkout.Customer
+    embeds_many :items, Checkout.Product
+    embeds_many :price_rules, Checkout.PriceRule
+    embeds_many :applied_price_rules, Checkout.PriceRule
 
-  def new(attrs \\ []) do
-    struct(__MODULE__, attrs)
+    timestamps()
   end
 end

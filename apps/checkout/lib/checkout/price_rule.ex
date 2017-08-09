@@ -1,5 +1,5 @@
 defmodule Checkout.PriceRule do
-  use Checkout, :schema
+  use Checkout.Schema
 
   schema "price_rules" do
     field :value, :integer
