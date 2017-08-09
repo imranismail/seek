@@ -26,7 +26,7 @@ defmodule CheckoutTest do
   end
 
   test "Checkout.total/1" do
-    product    = Product.new(id: "classic", price: 549_99)
+    product    = Product.new(sku: "classic", price: 549_99)
     price_rule = PriceRule.new(value: -1000, application_method: "across")
 
     checkout =

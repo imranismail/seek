@@ -5,8 +5,8 @@ defmodule Checkout.PriceRuleTest do
   alias Checkout.{Customer, PriceRule, Product}
 
   setup_all do
-    product  = Product.new(id: "classic", price: 549_99)
-    customer = Customer.new(id: "microsoft", name: "Microsoft")
+    product  = Product.new(sku: "classic", price: 549_99)
+    customer = Customer.new(slug: "microsoft", name: "Microsoft")
     price_rule = PriceRule.new(
       value: -1000,
       entitled_customers: [customer],
