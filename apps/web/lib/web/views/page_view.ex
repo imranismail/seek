@@ -1,3 +1,3 @@
-defmodule Web.PageView do
+defmodule Web.SessionView do
   use Web, :view
 end

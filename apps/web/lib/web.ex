@@ -20,6 +20,8 @@ defmodule Web do
   def controller do
     quote do
       use Phoenix.Controller, namespace: Web
+      use Checkout.Shared
+
       import Plug.Conn
       import Web.Router.Helpers
       import Web.Gettext
