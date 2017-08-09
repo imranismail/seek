@@ -20,6 +20,18 @@ defmodule Checkout do
     timestamps()
   end
 
+  def for_customer(checkout, customer) do
+    %{checkout | customer: customer}
+  end
+
+  def add_item(checkout, product) do
+    %{checkout | items: checkout.items ++ [product]}
+  end
+
+  def add_price_rule(checkout, price_rule) do
+    %{checkout | price_rules: checkout.price_rules ++ [price_rule]}
+  end
+
   def calculate_total(checkout) do
     checkout
     |> calculate_sub_total()
