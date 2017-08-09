@@ -20,4 +20,8 @@ defmodule Checkout do
       end
     end
   end
+
+  def new(attrs \\ []) do
+    struct(__MODULE__, attrs)
+  end
 end
