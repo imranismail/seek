@@ -23,8 +23,10 @@ defmodule Checkout.Repo.Migrations.CreateInitialTables do
       add :value, :integer
       add :usage_limit, :integer
       add :application_method, :string
-      add :preq_qty_range, :integer
-      add :preq_qty_range_comparison, :string
+      add :preq_qty, :integer
+      add :preq_qty_operator, :string
+
+      timestamps()
     end
 
     create table(:customers_price_rules) do
