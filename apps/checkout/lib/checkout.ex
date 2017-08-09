@@ -19,4 +19,22 @@ defmodule Checkout do
 
     timestamps()
   end
+
+  def calculate_total(checkout) do
+    checkout
+    |> calculate_sub_total()
+    |> apply_price_rules()
+  end
+
+  defp calculate_sub_total(checkout) do
+    checkout
+    |> Map.fetch!(:items)
+    |> Enum.reduce(checkout, &(%{&2 | total: &2.total + &1.price}))
+  end
+
+  defp apply_price_rules(checkout) do
+    checkout
+    |> Map.fetch!(:price_rules)
+    |> Enum.reduce(checkout, &PriceRule.apply_to/2)
+  end
 end
