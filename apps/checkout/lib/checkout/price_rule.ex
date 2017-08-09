@@ -6,7 +6,7 @@ defmodule Checkout.PriceRule do
     field :usage_limit, :integer
     field :application_method, :string
     field :prerequisite_qty_range, :integer
-    field :prerequisite_qty_range_comparison_operator, :string
+    field :prerequisite_qty_range_comparison, :string
 
     many_to_many :entitled_customers, Customer, join_through: CustomerPriceRule
     many_to_many :entitled_products, Product, join_through: ProductPriceRule
@@ -62,7 +62,7 @@ defmodule Checkout.PriceRule do
       |> Enum.filter(&entitled_products?(price_rule, &1))
       |> Enum.count()
 
-    case price_rule.prerequisite_qty_range_comparison_operator do
+    case price_rule.prerequisite_qty_range_comparison do
       "gt" -> count > price_rule.prerequisite_qty_range
       "eq" -> count == price_rule.prerequisite_qty_range
       "lt" -> count < price_rule.prerequisite_qty_range
