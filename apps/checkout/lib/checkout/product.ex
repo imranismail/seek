@@ -6,7 +6,7 @@ defmodule Checkout.Product do
     field :name, :string
     field :price, :integer
 
-    belongs_to :price_rule, Checkout.PriceRule
+    many_to_many :price_rules, PriceRule, join_through: ProductPriceRule
 
     timestamps()
   end

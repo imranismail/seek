@@ -11,7 +11,7 @@ defmodule Checkout.PriceRuleTest do
       value: -1000,
       entitled_customers: [customer],
       entitled_products: [product],
-      application_method: :across
+      application_method: "across"
     )
 
     {:ok, product: product, price_rule: price_rule, customer: customer}

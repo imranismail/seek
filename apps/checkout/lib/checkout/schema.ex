@@ -3,6 +3,15 @@ defmodule Checkout.Schema do
     quote do
       use Ecto.Schema
 
+      alias Checkout.{
+        Repo,
+        Customer,
+        Product,
+        PriceRule,
+        CustomerPriceRule,
+        ProductPriceRule
+      }
+
       def new(attrs \\ []) do
         struct(__MODULE__, attrs)
       end
