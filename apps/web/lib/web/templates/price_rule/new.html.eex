@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-6">
+      <%= render "form.html", changeset: @changeset, conn: @conn %>
+    </div>
+  </div>
+</div>

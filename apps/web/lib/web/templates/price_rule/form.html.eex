@@ -1,0 +1,50 @@
+<div class="box">
+  <%= form_for @changeset, price_rule_path(@conn, :create), fn f -> %>
+    <div class="field">
+      <div class="control is-expanded">
+        <%= text_input f, :name, placeholder: "Name", class: "input" %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control is-expanded">
+        <%= number_input f, :value, placeholder: "Value in cents eg: (-1000)", class: "input" %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control is-expanded">
+        <span class="select is-fullwidth">
+          <%= select f, :application_method, application_methods(), prompt: "Application Method" %>
+        </span>
+      </div>
+    </div>
+    <div class="field is-grouped">
+      <div class="control is-expanded">
+        <span class="select is-fullwidth">
+          <%= select f, :preq_qty_operator, comparison_operators(), prompt: "Comparison Operator" %>
+        </span>
+      </div>
+      <div class="control is-expanded">
+        <%= number_input f, :preq_qty, placeholder: "Prerequisite Quantity", class: "input" %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control is-expanded">
+        <%= component "SearchInput", source: api_customer_path(@conn, :index),
+                                     name: "#{f.name}[entitled_customers][${i}][id]",
+                                     placeholder: "Entitled Customers" %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control is-expanded">
+        <%= component "SearchInput", source: api_product_path(@conn, :index),
+                                     name: "#{f.name}[entitled_products][${i}][id]",
+                                     placeholder: "Entitled Products" %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control is-expanded">
+        <button type="button" class="button is-primary is-fullwidth">Submit</button>
+      </div>
+    </div>
+  <% end %>
+</div>
