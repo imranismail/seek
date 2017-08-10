@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-6">
+      <div class="columns box">
+        <%= for product <- @products do %>
+        <div class="column is-4">
+          <nav class="panel">
+            <div class="panel-heading is-uppercase">
+              <%= product.name %>
+            </div>
+            <div class="panel-block">
+              <%= Money.new(product.price, :AUD) %>
+            </div>
+            <div class="panel-block">
+              <%= link "💸", to: cart_path(@conn, :add_item, product),
+                                      class: "button is-primary is-fullwidth",
+                                      data: [remote: true, method: :patch] %>
+            </div>
+          </nav>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

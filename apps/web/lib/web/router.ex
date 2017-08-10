@@ -25,6 +25,7 @@ defmodule Web.Router do
 
     pipe_through :authenticated
 
+    resources "/products", ProductController, only: [:index]
   end
 
   # Other scopes may use custom stacks.
