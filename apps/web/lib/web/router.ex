@@ -29,10 +29,15 @@ defmodule Web.Router do
 
     resources "/cart", CartController, singleton: true, only: [:show, :delete]
     patch "/cart/add_item/:product_id", CartController, :add_item
+
+    resources "/price_rules", PriceRuleController
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Web do
-  #   pipe_through :api
-  # end
+  scope "/api", Web.API, as: :api do
+    pipe_through :api
+
+    resources "/products", ProductController, only: [:index]
+    resources "/customers", CustomerController, only: [:index]
+  end
 end

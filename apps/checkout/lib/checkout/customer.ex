@@ -11,6 +11,22 @@ defmodule Checkout.Customer do
     timestamps()
   end
 
+  def search(query) do
+    from q in __MODULE__, where: ilike(q.name , ^"%#{query}%")
+  end
+
+  def exclude(queryable, ids) when is_list(ids) do
+    from q in queryable, where: q.id not in ^ids
+  end
+
+  def select(queryable, schema \\ :default)
+  def select(queryable, schema) when schema in [:default, "default"] do
+    Repo.all(queryable)
+  end
+  def select(queryable, schema) when schema in [:option, "option"] do
+    Repo.all(from q in queryable, select: %{label: q.name, value: q.id})
+  end
+
   def to_session_id(customer) do
     "customer:#{customer.id}"
   end
@@ -30,6 +46,11 @@ defmodule Checkout.Customer do
     Cart.delete(customer.id)
     load_cart(customer)
   end
+
+  def load_price_rules(customer_or_customers) do
+    Repo.preload(customer_or_customers, :price_rules)
+  end
+
   def add_item(customer, product) do
     cart = Map.put(customer.cart, :items, customer.cart.items ++ [product])
     Cart.update(customer.id, cart)

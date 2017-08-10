@@ -10,4 +10,20 @@ defmodule Checkout.Product do
 
     timestamps()
   end
+
+  def search(query) do
+    from q in __MODULE__, where: ilike(q.name , ^"%#{query}%")
+  end
+
+  def exclude(queryable, ids) when is_list(ids) do
+    from q in queryable, where: q.id not in ^ids
+  end
+
+  def select(queryable, schema \\ :default)
+  def select(queryable, schema) when schema in [:default, "default"] do
+    Repo.all(queryable)
+  end
+  def select(queryable, schema) when schema in [:option, "option"] do
+    Repo.all(from q in queryable, select: %{label: q.name, value: q.id})
+  end
 end
