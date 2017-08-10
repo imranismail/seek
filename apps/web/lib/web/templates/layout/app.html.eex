@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="turbolinks-cache-control" content="no-preview">
+    <meta name="csrf-token" content="<%= get_csrf_token() %>">
+    <meta name="csrf-param" content="_csrf_token">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
