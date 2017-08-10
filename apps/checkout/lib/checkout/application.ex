@@ -14,6 +14,7 @@ defmodule Checkout.Application do
 
     Supervisor.start_link([
       supervisor(Checkout.Repo, []),
+      worker(Cachex, [Checkout.Cart, []]),
     ], strategy: :one_for_one, name: Checkout.Supervisor)
   end
 end
