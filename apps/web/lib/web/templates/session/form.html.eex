@@ -1,0 +1,24 @@
+<%= form_for @conn, session_path(@conn, :create), [as: :customer], fn f -> %>
+  <div class="box">
+    <div class="field has-addons">
+      <div class="control has-icons-left is-expanded">
+        <span class="select is-fullwidth is-medium">
+          <%= select f, :id, customers_to_options(@customers), prompt: "Select Account" %>
+        </span>
+        <span class="icon is-small is-left">
+          <i class="fa fa-user-circle-o"></i>
+        </span>
+      </div>
+      <div class="control">
+        <button type="submit" class="button is-medium is-light">
+          <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <%= link "Skip as default", to: @skip_to, data: [remote: true, method: :post] %>
+    </div>
+  </div>
+<% end %>

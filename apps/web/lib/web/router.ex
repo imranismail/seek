@@ -13,10 +13,18 @@ defmodule Web.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authenticated do
+    plug :fetch_customer, redirect_to: "/"
+  end
+
   scope "/", Web do
     pipe_through :browser # Use the default browser stack
 
     get "/", SessionController, :new
+    resources "/session", SessionController, singleton: true, only: [:new, :create]
+
+    pipe_through :authenticated
+
   end
 
   # Other scopes may use custom stacks.

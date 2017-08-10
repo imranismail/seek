@@ -1,20 +1,9 @@
 <div class="container">
   <div class="columns is-centered">
-    <div class="column is-2">
-      <%= for customer <- @customers do %>
-      <div class="column is-12">
-        <div class="card">
-          <div class="card-content">
-            <p class="title is-4">
-              <%= customer.name %>
-              <span class="icon">
-                <i class="fa fa-arrow-right"></i>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <% end %>
+    <div class="column is-4">
+      <%= render "form.html", conn: @conn,
+                              customers: @customers,
+                              skip_to: session_path(@conn, :create, customer: [id: 5]) %>
     </div>
   </div>
 </div>

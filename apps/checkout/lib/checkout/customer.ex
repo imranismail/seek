@@ -11,6 +11,17 @@ defmodule Checkout.Customer do
     timestamps()
   end
 
+  def to_session_id(customer) do
+    "customer:#{customer.id}"
+  end
+
+  def from_session_id(session_id) do
+    case session_id do
+      "customer:" <> id -> find(id)
+      nil -> nil
+    end
+  end
+
   def load_cart(customer) do
     Map.put(customer, :cart, Cart.find_or_create(customer.id))
   end
