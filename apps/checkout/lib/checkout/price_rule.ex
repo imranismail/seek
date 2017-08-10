@@ -30,29 +30,25 @@ defmodule Checkout.PriceRule do
   end
 
   defp entitled_customer?(price_rule, checkout) do
-    price_rule = Repo.preload(price_rule, :entitled_customers)
-
-    if Enum.any?(price_rule.entitled_customers) do
-      checkout.customer in price_rule.entitled_customers
-    else
+    if Enum.empty?(price_rule.entitled_customers) do
       true
+    else
+      Enum.any?(price_rule.entitled_customers, &(&1.id == checkout.customer.id))
     end
   end
 
   defp entitled_products?(price_rule, product) do
-    price_rule = Repo.preload(price_rule, :entitled_products)
-
-    if Enum.any?(price_rule.entitled_products) do
-      product in price_rule.entitled_products
-    else
+    if Enum.empty?(price_rule.entitled_products) do
       true
+    else
+      Enum.any?(price_rule.entitled_products, &(&1.id == product.id))
     end
   end
 
   defp exceed_usage_limit?(price_rule, checkout) do
     checkout
     |> Map.fetch!(:applied_price_rules)
-    |> Enum.filter(&(&1 == price_rule))
+    |> Enum.filter(&(&1.id == price_rule.id))
     |> Enum.count()
     |> Kernel.>=(price_rule.usage_limit)
   end
@@ -78,6 +74,7 @@ defmodule Checkout.PriceRule do
       "across" ->
         %{checkout |
           total: checkout.total + price_rule.value,
+          discount: checkout.discount + price_rule.value,
           applied_price_rules: checkout.applied_price_rules ++ [price_rule]
         }
       "each" ->
@@ -86,6 +83,7 @@ defmodule Checkout.PriceRule do
         |> Enum.reduce(checkout, fn _item, checkout ->
           %{checkout |
             total: checkout.total + price_rule.value,
+            discount: checkout.discount + price_rule.value,
             applied_price_rules: checkout.applied_price_rules ++ [price_rule]
           }
         end)

@@ -10,18 +10,28 @@ defmodule Checkout do
   use Checkout.Schema
 
   embedded_schema do
+    field :subtotal, :integer, default: 0
     field :total, :integer, default: 0
+    field :discount, :integer, default: 0
 
-    embeds_one :customer, Checkout.Customer
-    embeds_many :items, Checkout.Product
-    embeds_many :price_rules, Checkout.PriceRule
-    embeds_many :applied_price_rules, Checkout.PriceRule
+    embeds_one :customer, Customer
+    embeds_many :items, Product
+    embeds_many :price_rules, PriceRule
+    embeds_many :applied_price_rules, PriceRule
 
     timestamps()
   end
 
-  def for_customer(checkout, customer) do
+  def set_customer(checkout, customer) do
     %{checkout | customer: customer}
+  end
+
+  def set_items(checkout, items) do
+    %{checkout | items: items}
+  end
+
+  def set_price_rules(checkout, price_rules) do
+    %{checkout | price_rules: price_rules}
   end
 
   def add_item(checkout, product) do
@@ -32,7 +42,7 @@ defmodule Checkout do
     %{checkout | price_rules: checkout.price_rules ++ [price_rule]}
   end
 
-  def calculate_total(checkout) do
+  def calculate(checkout) do
     checkout
     |> calculate_sub_total()
     |> apply_price_rules()
@@ -41,12 +51,17 @@ defmodule Checkout do
   defp calculate_sub_total(checkout) do
     checkout
     |> Map.fetch!(:items)
-    |> Enum.reduce(checkout, &(%{&2 | total: &2.total + &1.price}))
+    |> Enum.reduce(checkout, fn item, checkout ->
+      checkout
+      |> Map.put(:subtotal, checkout.subtotal + item.price)
+      |> Map.put(:total, checkout.total + item.price)
+    end)
   end
 
   defp apply_price_rules(checkout) do
     checkout
     |> Map.fetch!(:price_rules)
+    |> Repo.preload([:entitled_customers, :entitled_products])
     |> Enum.reduce(checkout, &PriceRule.apply_to/2)
   end
 end
