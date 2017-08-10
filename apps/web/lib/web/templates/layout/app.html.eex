@@ -8,8 +8,12 @@
     <meta name="author" content="">
 
     <title>Checkout App</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <script src="https://use.fontawesome.com/f024536808.js"></script>
+
+    <link data-turbolinks-track="reload" rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script data-turbolinks-track="reload" src="https://use.fontawesome.com/f024536808.js"></script>
+    <script data-turbolinks-track="reload" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script data-turbolinks-track="reload" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js"></script>
+    <script data-turbolinks-track="reload" src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
     <section class="section">
