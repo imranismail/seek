@@ -34,10 +34,12 @@ defmodule Checkout.PriceRule do
     schema
     |> cast(attrs, @permitted)
     |> validate_required(@required)
-    |> validate_maybe_required_preq_qty()
-    |> validate_subset(:preq_qty_operator, comparison_operators())
-    |> validate_subset(:application_method, application_methods())
-    |> validate_subset(:usage_limit, greater_than: 0)
+    |> validate_preq_qty()
+    |> validate_preq_qty_operator()
+    |> validate_number(:value, less_than: 0)
+    |> validate_number(:usage_limit, greater_than: 0)
+    |> validate_inclusion(:preq_qty_operator, comparison_operators())
+    |> validate_inclusion(:application_method, application_methods())
   end
 
   def comparison_operators do
@@ -62,9 +64,29 @@ defmodule Checkout.PriceRule do
     end
   end
 
-  defp validate_maybe_required_preq_qty(changeset) do
+  def preload(price_rules, assocs \\ [:entitled_customers, :entitled_products]) do
+    Repo.preload(price_rules, assocs)
+  end
+
+  defp validate_preq_qty(changeset) do
     if get_change(changeset, :preq_qty) do
-      validate_required(changeset, :preq_qty_operator)
+      validate_required(
+        changeset,
+        :preq_qty_operator,
+        message: "required if quantity is set"
+      )
+    else
+      changeset
+    end
+  end
+
+  defp validate_preq_qty_operator(changeset) do
+    if get_change(changeset, :preq_qty_operator) do
+      validate_required(
+        changeset,
+        :preq_qty,
+        message: "required if comparison is set"
+      )
     else
       changeset
     end
