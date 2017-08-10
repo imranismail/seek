@@ -44,7 +44,7 @@ The interface to our checkout looks like this (shown in Ruby-ish pseudocode):
   checkout = Checkout.add_item(checkout, classic)
   checkout = Checkout.add_item(checkout, standout)
   checkout = Checkout.add_item(checkout, premium)
-  checkout = Checkout.calculate_total(checkout)
+  checkout = Checkout.calculate(checkout)
 
   checkout.total
 ```
