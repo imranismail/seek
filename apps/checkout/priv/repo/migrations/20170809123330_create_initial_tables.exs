@@ -20,6 +20,7 @@ defmodule Checkout.Repo.Migrations.CreateInitialTables do
     create unique_index(:products, :sku)
 
     create table(:price_rules) do
+      add :name, :string
       add :value, :integer
       add :usage_limit, :integer
       add :application_method, :string

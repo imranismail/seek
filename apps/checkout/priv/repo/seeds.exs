@@ -50,7 +50,13 @@ ford = Repo.insert! Customer.new(
   name: "Ford"
 )
 
+default = Repo.insert! Customer.new(
+  slug: "default",
+  name: "Default"
+)
+
 Repo.insert! PriceRule.new(
+  name: "Unilever's 3 for 2 Classic Ad Deal",
   value: -classic.price,
   entitled_customers: [unilever],
   entitled_products: [classic],
@@ -61,6 +67,7 @@ Repo.insert! PriceRule.new(
 )
 
 Repo.insert! PriceRule.new(
+  name: "Apple's Standout Ad Discount",
   value: -(standout.price - 299_99),
   entitled_customers: [apple],
   entitled_products: [standout],
@@ -68,6 +75,7 @@ Repo.insert! PriceRule.new(
 )
 
 Repo.insert! PriceRule.new(
+  name: "Nike Premium Ad Discount",
   value: -(premium.price - 379_99),
   entitled_customers: [nike],
   entitled_products: [premium],
@@ -77,6 +85,7 @@ Repo.insert! PriceRule.new(
 )
 
 Repo.insert! PriceRule.new(
+  name: "Ford's 5 for 4 Classic Ad Deal",
   value: -classic.price,
   entitled_customers: [ford],
   entitled_products: [classic],
@@ -87,6 +96,7 @@ Repo.insert! PriceRule.new(
 )
 
 Repo.insert! PriceRule.new(
+  name: "Ford's Standout Ad Discount",
   value: -(standout.price - 309_99),
   entitled_customers: [ford],
   entitled_products: [standout],
@@ -94,6 +104,7 @@ Repo.insert! PriceRule.new(
 )
 
 Repo.insert! PriceRule.new(
+  name: "Ford's Premium Ad Discount",
   value: -(premium.price - 389_99),
   entitled_customers: [ford],
   entitled_products: [premium],

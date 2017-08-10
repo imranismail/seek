@@ -2,6 +2,7 @@ defmodule Checkout.PriceRule do
   use Checkout.Schema
 
   schema "price_rules" do
+    field :name, :string
     field :value, :integer
     field :usage_limit, :integer
     field :application_method, :string
