@@ -29,11 +29,15 @@
                 <div class="control">
                   <p class="heading">Applied Discounts:</p>
                 </div>
+                <%= if Enum.any?(@checkout.applied_price_rules) do %>
                 <div class="tags">
                   <%= for price_rule <- @checkout.applied_price_rules do %>
-                    <span class="tag is-success"><%= price_rule.name %></span>
+                  <span class="tag is-success"><%= price_rule.name %></span>
                   <% end %>
                 </div>
+                <% else %>
+                <span>N/A</span>
+                <% end %>
               </td>
               <td colspan="1">
                 <div class="control">
