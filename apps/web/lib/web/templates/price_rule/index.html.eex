@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="box">
+    <div class="level">
+      <div class="level-left">
+        <p class="title">Price Rules</p>
+      </div>
+      <div class="level-right">
+        <%= link "New Price Rule", to: price_rule_path(@conn, :new), class: "button is-success" %>
+      </div>
+    </div>
+    <table class="table is-bordered is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+          <th>Usage Limit</th>
+          <th>Application Method</th>
+          <th>Prerequisite Qty</th>
+          <th>Entitled Customers</th>
+          <th>Entitled Products</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for price_rule <- @price_rules do %>
+        <tr>
+          <th><%= price_rule.name %></th>
+          <th><%= Money.new(price_rule.value, :AUD) %></th>
+          <td><%= price_rule.usage_limit || "∞" %></td>
+          <td><%= price_rule.application_method %></td>
+          <td>
+            <%= if price_rule.preq_qty do %>
+            <%= price_rule.preq_qty_operator %> <%= price_rule.preq_qty %>
+            <% else %>
+            N/A
+            <% end %>
+          </td>
+          <td>
+            <div class="tags">
+              <%= for customer <- price_rule.entitled_customers do %>
+              <span class="tag is-dark"><%= customer.slug %></span>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <div class="tags">
+              <%= for product <- price_rule.entitled_products do %>
+              <span class="tag is-dark"><%= product.sku %></span>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <div class="field is-grouped">
+              <div class="control">
+                <%= link "❌", to: price_rule_path(@conn, :edit, price_rule) %>
+              </div>
+              <div class="control">
+                <%= link "✍️", to: price_rule_path(@conn, :delete, price_rule) %>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
