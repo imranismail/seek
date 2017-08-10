@@ -1,7 +1,7 @@
 <div class="container">
   <div class="columns is-centered">
     <div class="column is-6">
-      <p class="title">New Price Rule</p>
+      <p class="title">Edit <%= @changeset.data.name %></p>
       <%= render "form.html", changeset: @changeset, conn: @conn %>
     </div>
   </div>

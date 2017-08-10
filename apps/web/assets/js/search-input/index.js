@@ -23,6 +23,10 @@ class SearchInput extends React.Component {
       highlighted: 0,
       focused: false,
     }
+
+    this.defaultProps = {
+      values: []
+    }
   }
 
   setInput(ref) {
@@ -94,6 +98,8 @@ class SearchInput extends React.Component {
           size: 1,
         })
       }
+
+      event.preventDefault()
     }
 
     if (
@@ -155,7 +161,7 @@ class SearchInput extends React.Component {
         schema: 'option'
       }
     }).then((options) =>
-      this.setState({ options })
+      this.setState({ options, values: this.props.values })
     )
   }
 

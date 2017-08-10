@@ -2,8 +2,8 @@ defmodule Web.PriceRuleView do
   use Web, :view
 
   def comparison_operators do
-    operators = Checkout.PriceRule.comparison_operators()
-    Enum.map(operators, fn operator ->
+    Checkout.PriceRule.comparison_operators()
+    |> Enum.map(fn operator ->
       label =
         operator
         |> String.replace("_", " ")
@@ -15,6 +15,6 @@ defmodule Web.PriceRuleView do
 
   def application_methods do
     Checkout.PriceRule.application_methods()
-    |> Enum.map(&String.capitalize/1)
+    |> Enum.map(&({String.capitalize(&1), &1}))
   end
 end
