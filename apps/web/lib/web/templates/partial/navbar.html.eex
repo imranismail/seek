@@ -1,0 +1,45 @@
+<nav class="nav">
+  <div class="container">
+    <div class="nav-left">
+      <%= link to: product_path(@conn, :index), class: "nav-item" do %>
+        <span class="title is-5">SEEK Checkout</span>
+      <% end %>
+    </div>
+    <span class="nav-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div class="nav-right nav-menu">
+      <%= if @session do %>
+      <div class="nav-item">
+        <div class="field is-grouped">
+          <div class="control">
+            <%= link to: cart_path(@conn, :show), class: "button is-light" do %>
+              <span data-turbolinks-permanent>
+                <%= Enum.count(@session.cart.items) %>
+              </span>
+              <span class="icon">
+                🛒
+              </span>
+            <% end %>
+          </div>
+          <div class="control">
+            <%= link to: price_rule_path(@conn, :index), class: "button is-danger" do %>
+              <span>🏷</span>
+            <% end %>
+          </div>
+          <div class="control">
+            <%= link to: session_path(@conn, :new), class: "button is-info" do %>
+              <span><%= @session.name %></span>
+              <span class="icon">
+                🔀
+              </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</nav>

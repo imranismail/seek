@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Checkout App</title>
+    <title>SEEK Checkout</title>
 
     <link data-turbolinks-track="reload" rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <script data-turbolinks-track="reload" src="https://use.fontawesome.com/f024536808.js"></script>
@@ -19,23 +19,14 @@
     <script data-turbolinks-track="reload" src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <section class="section">
-      <%= if info = get_flash(@conn, :info) do %>
-      <div class="notification is-info">
-        <button class="delete"></button>
-        <%= info %>
-      </div>
-      <% end %>
-
-      <%= if error = get_flash(@conn, :error) do %>
-      <div class="notification is-danger">
-        <button class="delete"></button>
-        <%= error %>
-      </div>
-      <% end %>
-
-      <%= render @view_module, @view_template, assigns %>
+    <section class="hero is-warning is-fullheight is-bold">
+      <header class="hero-head">
+        <%= partial "navbar.html", conn: @conn, session: assigns[:current_session] %>
+        <%= partial "notifications.html", message_levels: message_levels(), conn: @conn %>
+      </header>
+      <main class="hero-body">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
     </section>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -1,0 +1,7 @@
+<div class="container" style="margin-top: 1rem; position: fixed; left: 0; right: 0;">
+  <%= for {message, level} <- @message_levels do %>
+  <%= if message = get_flash(@conn, message) do %>
+    <%= component "Notification", %{message: message, level: level} %>
+  <% end %>
+  <% end %>
+</div>
