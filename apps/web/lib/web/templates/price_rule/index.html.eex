@@ -27,10 +27,14 @@
           <th><%= price_rule.name %></th>
           <th><%= Money.new(price_rule.value, :AUD) %></th>
           <td><%= price_rule.usage_limit || "∞" %></td>
-          <td><%= price_rule.application_method %></td>
+          <td><%= String.capitalize(price_rule.application_method) %></td>
           <td>
             <%= if price_rule.preq_qty do %>
-            <%= price_rule.preq_qty_operator %> <%= price_rule.preq_qty %>
+            <%= price_rule.preq_qty_operator
+                |> String.replace("_", " ")
+                |> String.capitalize()
+            %>
+            <%= price_rule.preq_qty %>
             <% else %>
             N/A
             <% end %>
@@ -52,10 +56,10 @@
           <td>
             <div class="field is-grouped">
               <div class="control">
-                <%= link "❌", to: price_rule_path(@conn, :edit, price_rule) %>
+                <%= link "✍️", to: price_rule_path(@conn, :edit, price_rule) %>
               </div>
               <div class="control">
-                <%= link "✍️", to: price_rule_path(@conn, :delete, price_rule) %>
+                <%= link "❌", to: price_rule_path(@conn, :delete, price_rule) %>
               </div>
             </div>
           </td>
