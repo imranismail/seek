@@ -59,7 +59,7 @@
                 <%= link "✍️", to: price_rule_path(@conn, :edit, price_rule) %>
               </div>
               <div class="control">
-                <%= link "❌", to: price_rule_path(@conn, :delete, price_rule) %>
+                <%= link "❌", to: price_rule_path(@conn, :delete, price_rule), data: [method: :delete] %>
               </div>
             </div>
           </td>

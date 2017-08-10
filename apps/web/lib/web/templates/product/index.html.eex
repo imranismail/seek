@@ -13,8 +13,8 @@
             </div>
             <div class="panel-block">
               <%= link "💸", to: cart_path(@conn, :add_item, product),
-                                      class: "button is-primary is-fullwidth",
-                                      data: [remote: true, method: :patch] %>
+                             class: "button is-primary is-fullwidth",
+                             data: [remote: true, method: :patch] %>
             </div>
           </nav>
         </div>
