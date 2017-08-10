@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-10">
+      <div class="box">
+        <p class="title">Your Cart</p>
+        <table class="table is-bordered is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Sum</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th colspan="3">
+              </th>
+              <th colspan="1">
+                <div class="control">
+                  Subtotal: <%= Money.new(@checkout.subtotal, :AUD) %>
+                </div>
+                <div class="control">
+                  Discount: <%= Money.new(@checkout.discount, :AUD) %>
+                </div>
+                <div class="control">
+                  Total: <%= Money.new(@checkout.total , :AUD) %>
+                </div>
+              </th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <%= for {item, occurences} <- Enum.group_by(@checkout.items, &(&1)) do %>
+            <tr>
+              <% qty = Enum.count(occurences) %>
+              <th><%= item.name %></th>
+              <td><%= Money.new(item.price, :AUD) %></td>
+              <td><%= qty %></td>
+              <td><%= Money.new(item.price * qty, :AUD) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="level">
+          <div class="level-left"></div>
+          <div class="level-right">
+            <div class="field is-grouped">
+              <p class="control">
+                <%= link "Clear", to: cart_path(@conn, :delete), class: "button is-danger", data: [remote: true, method: :delete] %>
+              </p>
+              <p class="control">
+                <%= link "Checkout", to: "javascript:void(0)", onclick: "alert('Jokes on you 🤡')", class: "button is-primary" %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

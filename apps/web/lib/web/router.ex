@@ -26,6 +26,9 @@ defmodule Web.Router do
     pipe_through :authenticated
 
     resources "/products", ProductController, only: [:index]
+
+    resources "/cart", CartController, singleton: true, only: [:show, :delete]
+    patch "/cart/add_item/:product_id", CartController, :add_item
   end
 
   # Other scopes may use custom stacks.
