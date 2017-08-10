@@ -8,7 +8,7 @@ defmodule Web.CartController do
     Customer.add_item(customer, product)
 
     conn
-    |> put_flash(:success, "Added #{product.name} to cart")
+    |> put_flash(:normal, "Added #{product.name} to cart")
     |> redirect(to: product_path(conn, :index))
   end
 

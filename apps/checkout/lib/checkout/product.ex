@@ -4,6 +4,7 @@ defmodule Checkout.Product do
   schema "products" do
     field :sku, :string
     field :name, :string
+    field :description, :string
     field :price, :integer
 
     many_to_many :price_rules, PriceRule, join_through: ProductPriceRule

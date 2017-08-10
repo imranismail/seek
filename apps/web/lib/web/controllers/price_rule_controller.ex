@@ -14,12 +14,13 @@ defmodule Web.PriceRuleController do
   end
 
   def create(conn, %{"price_rule" => price_rule_params}) do
-    changeset = PriceRule.changeset(%PriceRule{}, price_rule_params)
+    price_rule = PriceRule.preload(%PriceRule{})
+    changeset = PriceRule.changeset(price_rule, price_rule_params)
 
     case Repo.insert(changeset) do
       {:ok, price_rule} ->
         conn
-        |> put_flash(:info, "Price rule: #{price_rule.name} created")
+        |> put_flash(:normal, "Price rule: #{price_rule.name} created")
         |> redirect(to: price_rule_path(conn, :index))
       {:error, changeset} ->
         render(conn, :new, changeset: changeset)

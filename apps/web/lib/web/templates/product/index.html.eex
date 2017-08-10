@@ -9,11 +9,11 @@
               <%= product.name %>
             </div>
             <div class="panel-block">
-              <%= Money.new(product.price, :AUD) %>
+              <%= product.description %>
             </div>
             <div class="panel-block">
-              <%= link "💸", to: cart_path(@conn, :add_item, product),
-                             class: "button is-primary is-fullwidth",
+              <%= link "#{Money.new(product.price, :AUD)} 💸", to: cart_path(@conn, :add_item, product),
+                             class: "button is-dark is-fullwidth",
                              data: [remote: true, method: :patch] %>
             </div>
           </nav>
