@@ -20,6 +20,7 @@ defmodule Web do
   def controller do
     quote do
       use Phoenix.Controller, namespace: Web
+      use Turbolinks
       use Checkout.Shared
 
       import Plug.Conn
@@ -57,6 +58,16 @@ defmodule Web do
     quote do
       use Phoenix.Channel
       import Web.Gettext
+    end
+  end
+
+  def plug do
+    quote do
+      import Plug.Conn
+      import Phoenix.Controller
+
+      use Checkout.Shared
+      use Turbolinks
     end
   end
 
