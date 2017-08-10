@@ -61,7 +61,7 @@ Repo.insert! PriceRule.new(
   entitled_customers: [unilever],
   entitled_products: [classic],
   preq_qty: 3,
-  preq_qty_operator: "==",
+  preq_qty_operator: "greater_than_or_equal_to",
   usage_limit: 1,
   application_method: "across"
 )
@@ -80,7 +80,7 @@ Repo.insert! PriceRule.new(
   entitled_customers: [nike],
   entitled_products: [premium],
   preq_qty: 2,
-  preq_qty_operator: ">=",
+  preq_qty_operator: "greater_than_or_equal_to",
   application_method: "each"
 )
 
@@ -90,7 +90,7 @@ Repo.insert! PriceRule.new(
   entitled_customers: [ford],
   entitled_products: [classic],
   preq_qty: 5,
-  preq_qty_operator: "==",
+  preq_qty_operator: "greater_than_or_equal_to",
   usage_limit: 1,
   application_method: "across"
 )
@@ -109,6 +109,6 @@ Repo.insert! PriceRule.new(
   entitled_customers: [ford],
   entitled_products: [premium],
   preq_qty: 3,
-  preq_qty_operator: ">=",
+  preq_qty_operator: "greater_than_or_equal_to",
   application_method: "each"
 )

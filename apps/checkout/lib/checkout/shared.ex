@@ -7,7 +7,8 @@ defmodule Checkout.Shared do
         Product,
         PriceRule,
         CustomerPriceRule,
-        ProductPriceRule
+        ProductPriceRule,
+        Cart
       }
     end
   end

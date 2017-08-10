@@ -15,6 +15,20 @@ defmodule Checkout.PriceRule do
     timestamps()
   end
 
+  def comparison_operators do
+    ~w(
+      less_than
+      greater_than
+      less_than_or_equal_to
+      greater_than_or_equal_to
+      equal_to
+    )
+  end
+
+  def application_methods do
+    ~w(across each)
+  end
+
   def apply_to(price_rule, checkout) do
     if apply?(price_rule, checkout) do
       do_apply_to(price_rule, checkout)
@@ -60,12 +74,12 @@ defmodule Checkout.PriceRule do
       |> Enum.count()
 
     case price_rule.preq_qty_operator do
-      ">"  -> count > price_rule.preq_qty
-      "==" -> count == price_rule.preq_qty
-      "<"  -> count < price_rule.preq_qty
-      "<=" -> count <= price_rule.preq_qty
-      ">=" -> count >= price_rule.preq_qty
-      nil  -> true
+      "less_than"  -> count < price_rule.preq_qty
+      "greater_than" -> count > price_rule.preq_qty
+      "less_than_or_equal_to" -> count <= price_rule.preq_qty
+      "greater_than_or_equal_to" -> count >= price_rule.preq_qty
+      "equal_to" -> count == price_rule.preq_qty
+      nil -> true
     end
   end
 

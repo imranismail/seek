@@ -13,7 +13,7 @@ defmodule Checkout.PriceRuleTest do
       entitled_customers: [microsoft],
       entitled_products: [product],
       preq_qty: 1,
-      preq_qty_operator: ">",
+      preq_qty_operator: "greater_than",
       application_method: "across"
     )
 
