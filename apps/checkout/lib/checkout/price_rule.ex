@@ -15,6 +15,31 @@ defmodule Checkout.PriceRule do
     timestamps()
   end
 
+  @permitted ~w(
+    name
+    value
+    usage_limit
+    application_method
+    preq_qty
+    preq_qty_operator
+  )a
+
+  @required ~w(
+    name
+    value
+    application_method
+  )a
+
+  def changeset(schema, attrs \\ %{}) do
+    schema
+    |> cast(attrs, @permitted)
+    |> validate_required(@required)
+    |> validate_maybe_required_preq_qty()
+    |> validate_subset(:preq_qty_operator, comparison_operators())
+    |> validate_subset(:application_method, application_methods())
+    |> validate_subset(:usage_limit, greater_than: 0)
+  end
+
   def comparison_operators do
     ~w(
       less_than
@@ -34,6 +59,14 @@ defmodule Checkout.PriceRule do
       do_apply_to(price_rule, checkout)
     else
       checkout
+    end
+  end
+
+  defp validate_maybe_required_preq_qty(changeset) do
+    if get_change(changeset, :preq_qty) do
+      validate_required(changeset, :preq_qty_operator)
+    else
+      changeset
     end
   end
 
