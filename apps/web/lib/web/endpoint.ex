@@ -48,10 +48,19 @@ defmodule Web.Endpoint do
   """
   def init(_key, config) do
     if config[:load_from_system_env] do
-      port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
-      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+      {:ok,
+        config
+        |> Keyword.put(:url, [host: get_env!("HOST"), port: 80])
+        |> Keyword.put(:http, [:inet6, port: get_env!("PORT")])
+        |> Keyword.put(:secret_key_base, get_env!("SECRET_KEY"))
+      }
     else
       {:ok, config}
     end
+  end
+
+  defp get_env!(key) do
+    System.get_env(key) || raise "expected the #{key} environment "
+                                   <> "variable to be set"
   end
 end

@@ -6,6 +6,17 @@ defmodule Checkout.Repo do
   DATABASE_URL environment variable.
   """
   def init(_, opts) do
-    {:ok, Keyword.put(opts, :url, System.get_env("DATABASE_URL"))}
+    username = System.get_env("POSTGRES_USER") || opts[:username]
+    password = System.get_env("POSTGRES_PASSWORD") || opts[:password]
+    hostname = System.get_env("POSTGRES_HOST") || opts[:hostname]
+    database = System.get_env("POSTGRES_DATABASE") || opts[:database]
+
+    {:ok,
+      opts
+      |> Keyword.put(:username, username)
+      |> Keyword.put(:password, password)
+      |> Keyword.put(:hostname, hostname)
+      |> Keyword.put(:database, database)
+    }
   end
 end

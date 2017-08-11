@@ -21,6 +21,7 @@ defmodule Web.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", SessionController, :new
+    get "/healthz", HealthController, :show
     resources "/session", SessionController, singleton: true, only: [:new, :create]
 
     pipe_through :authenticated

@@ -1,0 +1,51 @@
+branches: [master]
+
+pipeline:
+  # publish:
+  #   image: plugins/docker
+  #   registry: asia.gcr.io
+  #   username: _json_key
+  #   repo: asia.gcr.io/labs-127/seek
+  #   tags:
+  #     - latest
+  #     - ${DRONE_COMMIT_SHA:0:7}
+  #   secrets: [docker_password]
+
+  # test:
+  #   image: asia.gcr.io/labs-127/seek:latest
+  #   environment:
+  #     - MIX_ENV=test
+  #     - POSTGRES_HOST=database
+  #   commands:
+  #     - make test
+
+  ship:
+    image: 127labs/drone-k8s-helm
+    pull: true
+    skip_tls: true
+    chart: ./charts/seek
+    release: divine-butterfly
+    clean_before_release: true
+    values:
+      ingress.hosts[0]: seek.127labs.com
+      image.tag: latest
+      image.repository: asia.gcr.io/labs-127/seek
+      image.pullSecrets[0]: asia.gcr.io
+      env.SECRET_KEY: "{{SECRET_KEY}}"
+      env.POSTGRES_USER: "{{PG_USER}}"
+      env.POSTGRES_PASSWORD: "{{PG_PASSWORD}}"
+      env.POSTGRES_HOST: womping-giraffe-postgresql
+      env.POSTGRES_DATABASE: checkout
+    secrets:
+      - helm_master
+      - helm_token
+      - pg_password
+      - pg_user
+      - secret_key
+
+# services:
+#   database:
+#     image: postgres
+#     environment:
+#       - POSTGRES_PASSWORD=postgres
+#       - POSTGRES_USER=postgres

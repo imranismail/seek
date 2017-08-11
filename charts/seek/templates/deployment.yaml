@@ -1,0 +1,73 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicas }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        {{ range $value := .Values.image.pullSecrets }}
+        - name: {{ $value }}
+        {{ end }}
+      initContainers:
+        - name: "{{ .Chart.Name }}-migrate-database"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["make", "db.migrate"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: HOST
+              value: {{ index .Values.ingress.hosts 0 }}
+            - name: PORT
+              value: {{ .Values.service.internalPort | quote }}
+            {{ range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{ end }}
+          resources:
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          env:
+            - name: HOST
+              value: {{ index .Values.ingress.hosts 0 }}
+            - name: PORT
+              value: {{ .Values.service.internalPort | quote }}
+            {{ range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{ end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}

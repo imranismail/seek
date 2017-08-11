@@ -1,4 +1,32 @@
-# Seek
+[![Build Status](https://drone.127labs.com/api/badges/imranismail/seek/status.svg)](https://drone.127labs.com/imranismail/seek)
+
+## How to Run
+
+Required dependency
+- Yarn
+- Elixir
+- PostgreSQL
+
+If you are on Mac and you have Homebrew installed run this command from the project directory
+
+```shell
+brew install elixir yarn postgresql
+```
+
+Next run the following to start the server
+
+```shell
+make install
+make dev
+```
+
+## Running Test
+
+```shell
+make test
+```
+
+## Assessment
 
 We are interested in seeing your coding and problem solving style, so we would love if
 you could complete this open code test.
@@ -40,13 +68,13 @@ possible as they can change in the future with little notice.
 The interface to our checkout looks like this (shown in Ruby-ish pseudocode):
 
 ```elixir
-  checkout = Checkout.new(pricing_rules: pricing_rules)
-  checkout = Checkout.add_item(checkout, classic)
-  checkout = Checkout.add_item(checkout, standout)
-  checkout = Checkout.add_item(checkout, premium)
-  checkout = Checkout.calculate(checkout)
+checkout = Checkout.new(pricing_rules: pricing_rules)
+checkout = Checkout.add_item(checkout, classic)
+checkout = Checkout.add_item(checkout, standout)
+checkout = Checkout.add_item(checkout, premium)
+checkout = Checkout.calculate(checkout)
 
-  checkout.total
+checkout.total
 ```
 
 Your task is to implement a checkout system that fulfils the requirements described above.
