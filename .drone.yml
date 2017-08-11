@@ -28,7 +28,7 @@ pipeline:
     clean_before_release: true
     values:
       ingress.hosts[0]: seek.127labs.com
-      image.tag: latest
+      image.tag: ${DRONE_COMMIT_SHA:0:7}
       image.repository: asia.gcr.io/labs-127/seek
       image.pullSecrets[0]: asia.gcr.io
       env.SECRET_KEY: "{{SECRET_KEY}}"
