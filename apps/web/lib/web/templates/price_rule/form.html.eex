@@ -1,5 +1,5 @@
 <div class="box">
-  <%= form_for @changeset, price_rule_path(@conn, :create), fn f -> %>
+  <%= form_for @changeset, @action, fn f -> %>
     <div class="control">
       <p class="heading">
         Details
@@ -51,7 +51,7 @@
     <div class="field">
       <div class="control is-expanded">
         <%= component "SearchInput", source: api_customer_path(@conn, :index),
-                                     name: "#{f.name}[entitled_customers][${i}][id]",
+                                     name: "#{f.name}[entitled_customer_ids][]",
                                      placeholder: "Entitled Customers",
                                      values: Enum.map(f.data.entitled_customers, &(%{label: &1.name, value: &1.id})) %>
       </div>
@@ -60,7 +60,7 @@
     <div class="field">
       <div class="control is-expanded">
         <%= component "SearchInput", source: api_product_path(@conn, :index),
-                                     name: "#{f.name}[entitled_products][${i}][id]",
+                                     name: "#{f.name}[entitled_product_ids][]",
                                      placeholder: "Entitled Products",
                                      values: Enum.map(f.data.entitled_products, &(%{label: &1.name, value: &1.id})) %>
       </div>

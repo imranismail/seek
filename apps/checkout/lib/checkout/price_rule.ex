@@ -9,8 +9,15 @@ defmodule Checkout.PriceRule do
     field :preq_qty, :integer
     field :preq_qty_operator, :string
 
-    many_to_many :entitled_customers, Customer, join_through: CustomerPriceRule
-    many_to_many :entitled_products, Product, join_through: ProductPriceRule
+    many_to_many :entitled_customers, Customer,
+      join_through: CustomerPriceRule,
+      on_replace: :delete,
+      on_delete: :delete_all
+
+    many_to_many :entitled_products, Product,
+      join_through: ProductPriceRule,
+      on_replace: :delete,
+      on_delete: :delete_all
 
     timestamps()
   end
@@ -33,6 +40,8 @@ defmodule Checkout.PriceRule do
   def changeset(schema, attrs \\ %{}) do
     schema
     |> cast(attrs, @permitted)
+    |> put_assoc_by(:entitled_customers, includes: [id: "entitled_customer_ids"])
+    |> put_assoc_by(:entitled_products, includes: [id: "entitled_product_ids"])
     |> validate_required(@required)
     |> validate_preq_qty()
     |> validate_preq_qty_operator()

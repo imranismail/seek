@@ -1,23 +1,23 @@
 branches: [master]
 
 pipeline:
-  # publish:
-  #   image: plugins/docker
-  #   registry: asia.gcr.io
-  #   username: _json_key
-  #   repo: asia.gcr.io/labs-127/seek
-  #   tags:
-  #     - latest
-  #     - ${DRONE_COMMIT_SHA:0:7}
-  #   secrets: [docker_password]
+  publish:
+    image: plugins/docker
+    registry: asia.gcr.io
+    username: _json_key
+    repo: asia.gcr.io/labs-127/seek
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA:0:7}
+    secrets: [docker_password]
 
-  # test:
-  #   image: asia.gcr.io/labs-127/seek:latest
-  #   environment:
-  #     - MIX_ENV=test
-  #     - POSTGRES_HOST=database
-  #   commands:
-  #     - make test
+  test:
+    image: asia.gcr.io/labs-127/seek:latest
+    environment:
+      - MIX_ENV=test
+      - POSTGRES_HOST=database
+    commands:
+      - make test
 
   ship:
     image: 127labs/drone-k8s-helm
@@ -43,9 +43,9 @@ pipeline:
       - pg_user
       - secret_key
 
-# services:
-#   database:
-#     image: postgres
-#     environment:
-#       - POSTGRES_PASSWORD=postgres
-#       - POSTGRES_USER=postgres
+services:
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres

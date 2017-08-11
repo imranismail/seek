@@ -11,6 +11,13 @@ defmodule Checkout.Customer do
     timestamps()
   end
 
+  @permitted ~w(id slug name)a
+
+  def changeset(schema, attrs \\ %{}) do
+    schema
+    |> cast(attrs, @permitted)
+  end
+
   def search(query) do
     from q in __MODULE__, where: ilike(q.name , ^"%#{query}%")
   end

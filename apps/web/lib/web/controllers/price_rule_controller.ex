@@ -32,6 +32,20 @@ defmodule Web.PriceRuleController do
     render(conn, :edit, changeset: PriceRule.changeset(price_rule))
   end
 
+  def update(conn, %{"id" => id, "price_rule" => price_rule_params}) do
+    price_rule = PriceRule.preload(PriceRule.find!(id))
+    changeset = PriceRule.changeset(price_rule, price_rule_params)
+
+    case Repo.update(changeset) do
+      {:ok, price_rule} ->
+        conn
+        |> put_flash(:normal, "Price rule: #{price_rule.name} updated")
+        |> redirect(to: price_rule_path(conn, :index))
+      {:error, changeset} ->
+        render(conn, :new, changeset: changeset)
+    end
+  end
+
   def delete(conn, %{"id" => id}) do
     price_rule = PriceRule.find!(id)
     Repo.delete!(price_rule)
