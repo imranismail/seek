@@ -10,7 +10,7 @@ class Input extends React.Component {
     this.state = {
       values: [],
       options: [],
-      hightlighted: 0,
+      highlighted: 0,
       size: 1,
       input: '',
       focused: false,
@@ -30,10 +30,10 @@ class Input extends React.Component {
   onStepDown() {
     this.setState(prevState => {
       const firstStep = 0
-      const nextStep = prevState.hightlighted + 1
+      const nextStep = prevState.highlighted + 1
       const lastStep = prevState.options.length - 1
       return {
-        hightlighted: nextStep > lastStep ? firstStep : nextStep
+        highlighted: nextStep > lastStep ? firstStep : nextStep
       }
     })
   }
@@ -41,10 +41,10 @@ class Input extends React.Component {
   onStepUp() {
     this.setState(prevState => {
       const firstStep = 0
-      const nextStep = prevState.hightlighted - 1
+      const nextStep = prevState.highlighted - 1
       const lastStep = prevState.options.length - 1
       return {
-        hightlighted: nextStep < firstStep ? lastStep : nextStep
+        highlighted: nextStep < firstStep ? lastStep : nextStep
       }
     })
   }
@@ -106,7 +106,7 @@ class Input extends React.Component {
         event.preventDefault()
         break
       case 'Enter':
-        this.onSelect(this.state.hightlighted)
+        this.onSelect(this.state.highlighted)
         event.preventDefault()
         break
       case 'Backspace':
@@ -196,7 +196,7 @@ class Input extends React.Component {
         </Values>
         <DropDownMenu
           options={this.state.options}
-          hightlighted={this.state.hightlighted}
+          highlighted={this.state.highlighted}
           onSelect={this.onSelect}
           isShowing={this.state.options.length > 0 && this.state.focused}
         />
